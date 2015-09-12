@@ -45,7 +45,7 @@ class Board
       # """
 
       print "#{@name2.capitalize}'s turn! Where would user like to go? : "
-      choice2 = gets.chomp.to_i
+      choice2 = gets.chomp.to_i #unless @board.includes? ("x"|| "o")
       @board[choice2 - 1] = "o"
       puts """
       #{@board[0]}| #{@board[1]} | #{@board[2]}
