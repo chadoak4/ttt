@@ -1,6 +1,11 @@
 class Board
-  attr_accessor :board
-    board = [1,2,3,4,5,6,7,8,9]
+
+  def initialize
+    @board = [1,2,3,4,5,6,7,8,9]
+  end
+  # def initialize
+  #   @winningcombo = [[0],[1],[2]]
+  # end
   def menu
     welcome
     users
@@ -28,15 +33,32 @@ class Board
   end
   def game
     loop do
-      print "#{@name1}'s turn! Where would user like to go? : "
+      print "#{@name1.capitalize}'s turn! Where would user like to go? : "
       choice1 = gets.chomp.to_i
-      board[choice1 - 1] = "x"
-      print "#{@name2}'s turn! Where would user like to go? : "
+      @board[choice1 - 1] = "x"
+      puts """
+      #{@board[0]}| #{@board[1]} | #{@board[2]}
+      ---------
+      #{@board[3]} | #{@board[4]} | #{@board[5]}
+      ---------
+      #{@board[6]} | #{@board[7]} | #{@board[8]}
+      # """
+
+      print "#{@name2.capitalize}'s turn! Where would user like to go? : "
       choice2 = gets.chomp.to_i
-      board[choice2 - 1] = "o"
-    end
+      @board[choice2 - 1] = "o"
+      puts """
+      #{@board[0]}| #{@board[1]} | #{@board[2]}
+      ---------
+      #{@board[3]} | #{@board[4]} | #{@board[5]}
+      ---------
+      #{@board[6]} | #{@board[7]} | {#{@board[8]}
+      """
+    #     until choice1 == @winningcombo
+    #  end
   end
 end
+end
 
-  game = Board.new
-  game.menu
+game = Board.new
+game.menu
