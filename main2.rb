@@ -19,6 +19,15 @@ class Board
     7 | 8 | 9 """
   end                                                                                             # => nil
 
+  def board_image
+    puts """
+    #{@board[0]}| #{@board[1]} | #{@board[2]}
+    ---------
+    #{@board[3]} | #{@board[4]} | #{@board[5]}
+    ---------
+    #{@board[6]} | #{@board[7]} | #{@board[8]}
+    """
+  end
 
   def users
     print "Now we need our competitors."                                    # => nil
@@ -28,74 +37,59 @@ class Board
     @name2 = gets.chomp
   end
 
+  def valid_move?(position)
+    @board[position-1] != 'o' && @board[position-1] != "x"
+  end
+
   def player1
     print "#{@name1.capitalize}'s turn! Where would user like to go? : "
     choice1 = gets.chomp.to_i
+    until valid_move?(choice1)
+      puts "Invalid positioning, please pick another"
+      choice1 = gets.chomp.to_i
+    end
     @board[choice1 - 1] = "x"
-    puts """
-    #{@board[0]}| #{@board[1]} | #{@board[2]}
-    ---------
-    #{@board[3]} | #{@board[4]} | #{@board[5]}
-    ---------
-    #{@board[6]} | #{@board[7]} | #{@board[8]}
-    """
+    board_image
     @count +=1
-    wins("x")
-    puts "Player 1 wins!"
-
   end
+
 
   def player2
     print "#{@name2.capitalize}'s turn! Where would user like to go? : "
     choice2 = gets.chomp.to_i
+    until valid_move?(choice2)
+      puts "Invalid positioning, please pick another"
+      choice2 = gets.chomp.to_i
+    end
     @board[choice2 - 1] = "o"
-    puts """
-    #{@board[0]}| #{@board[1]} | #{@board[2]}
-    ---------
-    #{@board[3]} | #{@board[4]} | #{@board[5]}
-    ---------
-    #{@board[6]} | #{@board[7]} | #{@board[8]}
-    """
+    board_image
     @count +=1
-    wins("o")
-    puts "Player 2 wins!"
   end
 
- def wins (choices)
-   if @winning_combo.any? {|winning_combo| winning_combo.all? {|position| @board[position-1]== choices}}
-   puts "We have a winner!"
-   play
+
+  def wins (choices)
+    if @winning_combo.any? {|winning_combo| winning_combo.all? {|position| @board[position-1]== choices}}
+      puts "We have a winner! Come back again!"
+      exit
+    end
   end
- end
 
   def play
     welcome
     users
     while @count < 9
       player1
+         if wins("x")
+         end
       player2
-      print "Tie Game!"
+        if wins("o")
+        end
     end
-  end
 
+  print "Tie Game!"
+  end
 
 end
 
-  game = Board.new  # => #<Board:0x007ffa2b186258 @board=[1, 2, 3, 4, 5, 6, 7, 8, 9]>
-  game.play
-
-
-  # >> Welcome to Tic-Tac-ToeUsers must select a number 1 - 9. Numbers align with designated position on the board(see gameboard below).
-  # >>     1 | 2 | 3
-  # >>     ---------
-  # >>     4 | 5 | 6
-  # >>     ---------
-  # >>     7 | 8 | 9
-  # >> Now we need our competitors.Please enter name of Player One :
-
-  # ~> NoMethodError
-  # ~> undefined method `chomp' for nil:NilClass
-  # ~>
-  # ~> /Users/chadoakley/tiy/ttt/main2.rb:33:in `users'
-  # ~> /Users/chadoakley/tiy/ttt/main2.rb:11:in `menu'
-  # ~> /Users/chadoakley/tiy/ttt/main2.rb:67:in `<main>'
+game = Board.new  # => #<Board:0x007ffa2b186258 @board=[1, 2, 3, 4, 5, 6, 7, 8, 9]>
+game.play
